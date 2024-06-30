@@ -196,13 +196,18 @@ x86_64-unknown-linux-gnu)
     install_packages qemu-user
   fi
   ;;
+# There is no gcc-riscv32-linux-gnu libc6-dev-riscv32-cross package in apt-get.
 riscv32im-risc0-zkvm-elf)
   use_clang=1
-  install_packages \
-    gcc-riscv32-linux-gnu \
-    libc6-dev-riscv32-cross \
-    qemu-user
+  install_packages qemu-user
   ;;
+# riscv32im-risc0-zkvm-elf)
+#   use_clang=1
+#   install_packages \
+#     gcc-riscv32-linux-gnu \
+#     libc6-dev-riscv32-cross \
+#     qemu-user
+#   ;;
 *)
   ;;
 esac

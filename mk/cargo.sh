@@ -213,7 +213,7 @@ case $target in
     ;;
   riscv32im-risc0-zkvm-elf)
     use_clang=1
-    export CARGO_TARGET_RISCV32IM_RISC0_ZKVM_ELF_LINKER=clang-$llvm_version
+    export CARGO_TARGET_RISCV32IM_RISC0_ZKVM_ELF_LINKER=riscv32-unknown-elf-gcc
     export CARGO_TARGET_RISCV32IM_RISC0_ZKVM_ELF_RUNNER="$qemu_riscv32"
     ;;
   *)
