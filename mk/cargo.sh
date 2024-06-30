@@ -29,6 +29,7 @@ qemu_powerpc="qemu-ppc -L /usr/powerpc-linux-gnu"
 qemu_powerpc64="qemu-ppc64 -L /usr/powerpc64-linux-gnu"
 qemu_powerpc64le="qemu-ppc64le -L /usr/powerpc64le-linux-gnu"
 qemu_riscv64="qemu-riscv64 -L /usr/riscv64-linux-gnu"
+qemu_riscv32="qemu-riscv32 -L /usr/riscv32-linux-gnu"
 qemu_s390x="qemu-s390x -L /usr/s390x-linux-gnu"
 qemu_sparc64="qemu-sparc64 -L /usr/sparc64-linux-gnu"
 qemu_x86="qemu-i386"
@@ -210,6 +211,11 @@ case $target in
     use_clang=1
     export CARGO_TARGET_WASM32_WASI_RUNNER=target/tools/linux-x86_64/wasmtime/wasmtime
     ;;
+  riscv32im-risc0-zkvm-elf)
+    use_clang=1
+    export CARGO_TARGET_RISCV32IM_RISC0_ZKVM_ELF_LINKER=clang-$llvm_version
+    export CARGO_TARGET_RISCV32IM_RISC0_ZKVM_ELF_RUNNER="$qemu_riscv32"
+    ;;
   *)
     ;;
 esac
@@ -287,3 +293,5 @@ if [ -n "${RING_COVERAGE-}" ]; then
     > "$coverage_dir"/reports/coverage-$basename.txt
   done < "$RING_BUILD_EXECUTABLE_LIST"
 fi
+
+

@@ -214,6 +214,11 @@ const ASM_TARGETS: &[AsmTarget] = &[
         arch: AARCH64,
         perlasm_format: "win64",
     },
+    AsmTarget {
+        oss: LINUX_ABI,
+        arch: "riscv32",
+        perlasm_format: "linux32",
+    },
 ];
 
 struct AsmTarget {

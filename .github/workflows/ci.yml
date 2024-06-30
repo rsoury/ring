@@ -161,7 +161,7 @@ jobs:
       matrix:
         # XXX: See `test-features` below.
         features:
-          - # Default
+          -  # Default
 
         target:
           - aarch64-apple-darwin
@@ -179,6 +179,7 @@ jobs:
           - i686-pc-windows-msvc
           - i686-unknown-linux-gnu
           - i686-unknown-linux-musl
+          - riscv32im-risc0-zkvm-elf
           - riscv64gc-unknown-linux-gnu
           - wasm32-wasi
           - x86_64-pc-windows-gnu
@@ -188,7 +189,7 @@ jobs:
           - x86_64-unknown-linux-gnu
 
         mode:
-          - # debug
+          -  # debug
           - --release
 
         rust_channel:
@@ -296,6 +297,9 @@ jobs:
             rust_channel: stable
             host_os: ubuntu-22.04
 
+          - target: riscv32im-risc0-zkvm-elf
+            host_os: ubuntu-22.04
+
           - target: riscv64gc-unknown-linux-gnu
             host_os: ubuntu-22.04
 
@@ -355,12 +359,14 @@ jobs:
       # Check that all the needed symbol renaming was done.
       # TODO: Do this check on Windows too.
 
-      - if: ${{ (matrix.target != 'aarch64-apple-ios' || matrix.rust_channel != '1.63.0') &&
-                !contains(matrix.host_os, 'windows') }}
+      - if:
+          ${{ (matrix.target != 'aarch64-apple-ios' || matrix.rust_channel != '1.63.0') &&
+          !contains(matrix.host_os, 'windows') }}
         run: rustup toolchain install --component=llvm-tools-preview ${{ matrix.rust_channel }}
 
-      - if: ${{ (matrix.target != 'aarch64-apple-ios' || matrix.rust_channel != '1.63.0') &&
-                !contains(matrix.host_os, 'windows') }}
+      - if:
+          ${{ (matrix.target != 'aarch64-apple-ios' || matrix.rust_channel != '1.63.0') &&
+          !contains(matrix.host_os, 'windows') }}
         run: mk/check-symbol-prefixes.sh +${{ matrix.rust_channel }} --target=${{ matrix.target }}
 
   test-bench:
@@ -485,11 +491,13 @@ jobs:
       # Check that all the needed symbol renaming was done.
       # TODO: Do this check on Windows too.
 
-      - if: ${{ (matrix.target != 'aarch64-apple-ios' || matrix.rust_channel != '1.63.0') &&
+      - if:
+          ${{ (matrix.target != 'aarch64-apple-ios' || matrix.rust_channel != '1.63.0') &&
           !contains(matrix.host_os, 'windows') }}
         run: rustup toolchain install --component=llvm-tools-preview ${{ matrix.rust_channel }}
 
-      - if: ${{ (matrix.target != 'aarch64-apple-ios' || matrix.rust_channel != '1.63.0') &&
+      - if:
+          ${{ (matrix.target != 'aarch64-apple-ios' || matrix.rust_channel != '1.63.0') &&
           !contains(matrix.host_os, 'windows') }}
         run: mk/check-symbol-prefixes.sh +${{ matrix.rust_channel }} --target=${{ matrix.target }}
 
@@ -513,7 +521,7 @@ jobs:
         host_os:
           - ubuntu-22.04
         mode:
-          - # debug
+          -  # debug
           - --release
         rust_channel:
           - stable
@@ -574,21 +582,22 @@ jobs:
 
         # TODO: targets
         target:
-          - aarch64-apple-darwin           # Has assembly
-          - aarch64-unknown-linux-gnu      # Has assembly
-          - arm-unknown-linux-gnueabi      # Has assembly
-          - armv7-unknown-linux-gnueabihf  # Has assembly
+          - aarch64-apple-darwin # Has assembly
+          - aarch64-unknown-linux-gnu # Has assembly
+          - arm-unknown-linux-gnueabi # Has assembly
+          - armv7-unknown-linux-gnueabihf # Has assembly
           # - i686-unknown-linux-gnu       # Has assembly; handled specially below.
-          - powerpc-unknown-linux-gnu      # No assembly 32-bit big-endian with flags
-          - powerpc64-unknown-linux-gnu    # No assembly 64-bit big-endian with flags
-          - powerpc64le-unknown-linux-gnu  # No assembly 64-bit little-endian with flags
-          - riscv64gc-unknown-linux-gnu    # No assembly 64-bit little-endian without flags
-          - s390x-unknown-linux-gnu        # No assembly 64-bit big-endian
-          - x86_64-apple-darwin            # Has assembly
-          - x86_64-unknown-linux-musl      # Has assembly
+          - powerpc-unknown-linux-gnu # No assembly 32-bit big-endian with flags
+          - powerpc64-unknown-linux-gnu # No assembly 64-bit big-endian with flags
+          - powerpc64le-unknown-linux-gnu # No assembly 64-bit little-endian with flags
+          - riscv32im-risc0-zkvm-elf # No assembly 32-bit little-endian without flags
+          - riscv64gc-unknown-linux-gnu # No assembly 64-bit little-endian without flags
+          - s390x-unknown-linux-gnu # No assembly 64-bit big-endian
+          - x86_64-apple-darwin # Has assembly
+          - x86_64-unknown-linux-musl # Has assembly
 
         mode:
-          - # debug
+          -  # debug
 
         # Coverage collection is Nightly-only
         rust_channel:
@@ -647,6 +656,9 @@ jobs:
             host_os: ubuntu-22.04
 
           - target: powerpc64le-unknown-linux-gnu
+            host_os: ubuntu-22.04
+
+          - target: riscv32im-risc0-zkvm-elf
             host_os: ubuntu-22.04
 
           - target: riscv64gc-unknown-linux-gnu

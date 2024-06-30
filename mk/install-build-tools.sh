@@ -196,6 +196,13 @@ x86_64-unknown-linux-gnu)
     install_packages qemu-user
   fi
   ;;
+riscv32im-risc0-zkvm-elf)
+  use_clang=1
+  install_packages \
+    gcc-riscv32-linux-gnu \
+    libc6-dev-riscv32-cross \
+    qemu-user
+  ;;
 *)
   ;;
 esac
